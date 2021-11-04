@@ -12,6 +12,10 @@ public class CollisionHandler : MonoBehaviour
     AudioClip explosionSound;
     [SerializeField]
     AudioClip winSound;
+    [SerializeField]
+    ParticleSystem explosionParticles;
+    [SerializeField]
+    ParticleSystem winParticles;
 
     AudioSource myAudioSource;
 
@@ -34,20 +38,22 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Hit a firendly object");
                 break;
             case "Finish":
-                GetComponent<Movement>().enabled = false;
-                myAudioSource.Stop();
-                myAudioSource.PlayOneShot(winSound);
-                Invoke("LoadNextScene", loadLevelDelay);
-                isTransitioning = true;
+                winParticles.Play();
+                LoadLevel("LoadNextScene", winSound);
                 break;
             default:
-                GetComponent<Movement>().enabled = false;
-                myAudioSource.Stop();
-                myAudioSource.PlayOneShot(explosionSound);
-                Invoke("StartCrashSequence", loadLevelDelay);
-                isTransitioning = true;
+                explosionParticles.Play();
+                LoadLevel("StartCrashSequence", explosionSound);
                 break;
         }
+    }
+
+    void LoadLevel(string loadLevelMethod, AudioClip audio) {
+        GetComponent<Movement>().enabled = false;
+        myAudioSource.Stop();
+        myAudioSource.PlayOneShot(audio);
+        Invoke(loadLevelMethod, loadLevelDelay);
+        isTransitioning = true;
     }
 
     void StartCrashSequence() {
