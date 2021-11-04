@@ -10,9 +10,11 @@ public class Movement : MonoBehaviour
 
     [SerializeField]
     float forwardThrust = 1000f;
-
     [SerializeField]
     float rotationThrust = 500f;
+    [SerializeField]
+    AudioClip thrustSound;
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,10 @@ public class Movement : MonoBehaviour
         {
             myRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * forwardThrust);
 
-            if (!myAudioSource.isPlaying) myAudioSource.Play();
+            if (!myAudioSource.isPlaying) 
+            { 
+                myAudioSource.PlayOneShot(thrustSound);
+            }
         }
         else {
             myAudioSource.Stop();
