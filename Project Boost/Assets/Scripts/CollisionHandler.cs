@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
@@ -14,11 +15,20 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Hit a firendly object");
                 break;
             case "Finish":
-                Debug.Log("Completed the level");
+                LoadNextScene();
                 break;
             default:
-                Debug.Log("Game over");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);//Restart the level
                 break;
         }
+    }
+
+    void LoadNextScene() { 
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings) {
+            nextSceneIndex = 0;//Start over
+        }
+        SceneManager.LoadScene(nextSceneIndex);//Load next level
     }
 }
