@@ -18,12 +18,19 @@ public class CollisionHandler : MonoBehaviour
     ParticleSystem winParticles;
 
     AudioSource myAudioSource;
+    BoxCollider myCollider;
 
     bool isTransitioning = false;
 
     private void Start()
     {
         myAudioSource = GetComponent<AudioSource>();
+        myCollider = GetComponent<BoxCollider>();
+    }
+
+    private void Update()
+    {
+        ProcessCheats();
     }
 
 
@@ -67,5 +74,14 @@ public class CollisionHandler : MonoBehaviour
             nextSceneIndex = 0;//Start over
         }
         SceneManager.LoadScene(nextSceneIndex);//Load next level
+    }
+
+    void ProcessCheats() {
+        if (Input.GetKeyDown(KeyCode.L)) {
+            LoadNextScene();
+        }
+        else if (Input.GetKeyDown(KeyCode.C)) {
+            myCollider.enabled = !myCollider.enabled;
+        }
     }
 }
