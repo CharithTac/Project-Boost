@@ -36,27 +36,27 @@ public class Movement : MonoBehaviour
 
     private void ProcessThrust()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))//If the space key is holding
         {
-            myRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * forwardThrust);
-            if (!mainThrusterParticles.isEmitting) {
-                mainThrusterParticles.Play();
+            myRigidbody.AddRelativeForce(Vector3.up * Time.deltaTime * forwardThrust);//Adding relative force(changes direction when rotated
+            if (!mainThrusterParticles.isEmitting) {//Checks whether the particle system is playing first
+                mainThrusterParticles.Play();//If the particle system isn't playing, then play
             }
 
-            if (!myAudioSource.isPlaying) 
+            if (!myAudioSource.isPlaying)//Checks whether the audio is already playing
             { 
-                myAudioSource.PlayOneShot(thrustSound);
+                myAudioSource.PlayOneShot(thrustSound);//If it's not playing then play
             }
         }
         else {
-            myAudioSource.Stop();
-            mainThrusterParticles.Stop();
+            myAudioSource.Stop();//If the player isn't holding the space key, then stop the audio
+            mainThrusterParticles.Stop();//Also stop emitting particles
         }
     }
 
     private void ProcessRotation() {
         myRigidbody.freezeRotation = true; //Freezing rotation so we can manually rotate
-        transform.Rotate(Vector3.forward * Input.GetAxis("Horizontal") * Time.deltaTime * rotationThrust);
+        transform.Rotate(Vector3.forward * Input.GetAxis("Horizontal") * Time.deltaTime * rotationThrust);//Rotating
         if (Input.GetAxis("Horizontal") < 0)
         {
             if (!leftThrusterParticles.isEmitting)
